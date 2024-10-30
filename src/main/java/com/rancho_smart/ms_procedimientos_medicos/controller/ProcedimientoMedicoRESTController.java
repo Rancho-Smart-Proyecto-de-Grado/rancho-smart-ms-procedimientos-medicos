@@ -31,18 +31,7 @@ public class ProcedimientoMedicoRESTController {
         return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 
-    @GetMapping("/historial-medico/{idHistorialMedico}")
-    public ResponseEntity<List<ProcedimientoMedico>> getProcedimientosMedicosByHistorialMedico(@PathVariable Long idHistorialMedico){
-        List<ProcedimientoMedico> listadoProcedimientosMedicos = this.procedimientoMedicoService.getProcedimientosMedicosByHistorialMedico(idHistorialMedico);
-        return new ResponseEntity<>(listadoProcedimientosMedicos, HttpStatus.OK);
-    }
 
-    @GetMapping("/tratamiento/{idHistorialMedico}")
-    public ResponseEntity<List<ProcedimientoMedico>> getProcedimientosMedicosByHistorialMedicoAndTratamiento(@PathVariable Long idHistorialMedico){
-        List<ProcedimientoMedico> listadoProcedimientos = this.procedimientoMedicoService.getProcedimientosMedicosByTratamiento(idHistorialMedico);
-        return new ResponseEntity<>(listadoProcedimientos, HttpStatus.OK);
-    }
-    
     @GetMapping("/{id}")
     public ResponseEntity<ProcedimientoMedico> getProcedimientoMedico(@PathVariable Long id) {
         Optional<ProcedimientoMedico> procedimientoMedico = this.procedimientoMedicoService.getProcedimientoMedico(id);
@@ -61,7 +50,7 @@ public class ProcedimientoMedicoRESTController {
         if (!this.procedimientoMedicoService.getProcedimientoMedico(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            procedimientoMedico.setId(id);
+            procedimientoMedico.setIdProcedimientoMedico(id);
             ProcedimientoMedico procedimientoMedicoActualizado = this.procedimientoMedicoService.saveProcedimientoMedico(procedimientoMedico);
             return new ResponseEntity<>(procedimientoMedicoActualizado, HttpStatus.OK);
         }

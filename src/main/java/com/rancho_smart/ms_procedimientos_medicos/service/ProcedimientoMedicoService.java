@@ -19,14 +19,6 @@ public class ProcedimientoMedicoService {
     public List<ProcedimientoMedico> getProcedimientosMedicos() {
         return this.procedimientoMedicoRepository.findAll();
     }
-    
-    public List<ProcedimientoMedico> getProcedimientosMedicosByHistorialMedico(Long idHistorialMedico){
-        return this.getProcedimientosMedicosByHistorialMedico(idHistorialMedico);
-    }
-
-    public List<ProcedimientoMedico> getProcedimientosMedicosByTratamiento(Long idTratamiento){
-        return this.procedimientoMedicoRepository.findByIdHistorialMedicoAndTratamiento(idTratamiento);
-    }
 
     public Optional<ProcedimientoMedico> getProcedimientoMedico(Long id) {
         return this.procedimientoMedicoRepository.findById(id);

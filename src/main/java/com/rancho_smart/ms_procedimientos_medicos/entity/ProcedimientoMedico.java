@@ -5,13 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Entity(name = "PROCEDIMIENTO_MEDICO")
+@Entity
+@Table(name = "PROCEDIMIENTO_MEDICO")
 public class ProcedimientoMedico {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idProcedimientoMedico;
 
     @Column(name = "ID_HISTORIAL_MEDICO", nullable = false)
     private Long idHistorialMedico;
@@ -25,16 +27,22 @@ public class ProcedimientoMedico {
     @Column(name = "DESCRIPCION")
     private String descripcion;
 
-
     public ProcedimientoMedico() {
     }
 
-    public Long getId() {
-        return id;
+        public ProcedimientoMedico(Long idHistorialMedico, Long idTratamiento, String titulo, String descripcion) {
+        this.idHistorialMedico = idHistorialMedico;
+        this.idTratamiento = idTratamiento;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getIdProcedimientoMedico() {
+        return idProcedimientoMedico;
+    }
+
+    public void setIdProcedimientoMedico(Long idProcedimientoMedico) {
+        this.idProcedimientoMedico = idProcedimientoMedico;
     }
 
     public String getDescripcion() {
@@ -68,9 +76,6 @@ public class ProcedimientoMedico {
     public void setIdTratamiento(Long idTratamiento) {
         this.idTratamiento = idTratamiento;
     }
-
-    
-
 }
 
 
