@@ -45,7 +45,7 @@ public class ProcedimientoMedicoRESTController {
         return new ResponseEntity<>(procedimientoMedicoCreado, HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("/{idProcedimientoMedico}")
     public ResponseEntity<ProcedimientoMedico> updateProcedimientoMedico(@PathVariable Long id, @RequestBody ProcedimientoMedico procedimientoMedico) {
         if (!this.procedimientoMedicoService.getProcedimientoMedico(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -56,12 +56,12 @@ public class ProcedimientoMedicoRESTController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteProcedimientoMedico(@PathVariable Long id) {
-        if (!this.procedimientoMedicoService.getProcedimientoMedico(id).isPresent()) {
+    @DeleteMapping("/{idProcedimientoMedico}")
+    public ResponseEntity<Void> deleteProcedimientoMedico(@PathVariable Long idProcedimientoMedico) {
+        if (!this.procedimientoMedicoService.getProcedimientoMedico(idProcedimientoMedico).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            this.procedimientoMedicoService.deleteProcedimientoMedico(id);
+            this.procedimientoMedicoService.deleteProcedimientoMedico(idProcedimientoMedico);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
