@@ -28,41 +28,59 @@ public class ProcedimientoMedicoRESTController {
     @GetMapping
     public ResponseEntity<List<ProcedimientoMedico>> getProcedimientosMedicos() {
         List<ProcedimientoMedico> listado = this.procedimientoMedicoService.getProcedimientosMedicos();
-        return new ResponseEntity<>(listado, HttpStatus.OK);
+        return ResponseEntity.ok(listado);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<ProcedimientoMedico> getProcedimientoMedico(@PathVariable Long id) {
         Optional<ProcedimientoMedico> procedimientoMedico = this.procedimientoMedicoService.getProcedimientoMedico(id);
         return procedimientoMedico.map(ResponseEntity::ok)
-                                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                                   .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/tratamiento/{idTratamiento}")
+    public ResponseEntity<List<ProcedimientoMedico>> getProcedimientoMedicoByIdTratamiento(@PathVariable Long idTratamiento) {
+        List<ProcedimientoMedico> procedimientos = this.procedimientoMedicoService.getProcedimientosMedicosByIdTratamiento(idTratamiento);
+        if (procedimientos != null && !procedimientos.isEmpty()) {
+            return ResponseEntity.ok(procedimientos);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/historial/{idHistorialMedico}")
+    public ResponseEntity<List<ProcedimientoMedico>> getProcedimientoMedicoByIdHistorial(@PathVariable Long idHistorialMedico) {
+        List<ProcedimientoMedico> procedimientos = this.procedimientoMedicoService.getProcedimientosMedicosByIdHistorial(idHistorialMedico);
+        if (procedimientos != null && !procedimientos.isEmpty()) {
+            return ResponseEntity.ok(procedimientos);
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping
     public ResponseEntity<ProcedimientoMedico> saveProcedimientoMedico(@RequestBody ProcedimientoMedico procedimientoMedico) {
         ProcedimientoMedico procedimientoMedicoCreado = this.procedimientoMedicoService.saveProcedimientoMedico(procedimientoMedico);
-        return new ResponseEntity<>(procedimientoMedicoCreado, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(procedimientoMedicoCreado);
     }
 
-    @PutMapping("/{idProcedimientoMedico}")
+    @PutMapping("/{id}")
     public ResponseEntity<ProcedimientoMedico> updateProcedimientoMedico(@PathVariable Long id, @RequestBody ProcedimientoMedico procedimientoMedico) {
-        if (!this.procedimientoMedicoService.getProcedimientoMedico(id).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<ProcedimientoMedico> existingProcedimiento = this.procedimientoMedicoService.getProcedimientoMedico(id);
+        if (!existingProcedimiento.isPresent()) {
+            return ResponseEntity.notFound().build();
         } else {
             procedimientoMedico.setIdProcedimientoMedico(id);
             ProcedimientoMedico procedimientoMedicoActualizado = this.procedimientoMedicoService.saveProcedimientoMedico(procedimientoMedico);
-            return new ResponseEntity<>(procedimientoMedicoActualizado, HttpStatus.OK);
+            return ResponseEntity.ok(procedimientoMedicoActualizado);
         }
     }
 
-    @DeleteMapping("/{idProcedimientoMedico}")
-    public ResponseEntity<Void> deleteProcedimientoMedico(@PathVariable Long idProcedimientoMedico) {
-        if (!this.procedimientoMedicoService.getProcedimientoMedico(idProcedimientoMedico).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProcedimientoMedico(@PathVariable Long id) {
+        if (!this.procedimientoMedicoService.getProcedimientoMedico(id).isPresent()) {
+            return ResponseEntity.notFound().build();
         } else {
-            this.procedimientoMedicoService.deleteProcedimientoMedico(idProcedimientoMedico);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            this.procedimientoMedicoService.deleteProcedimientoMedico(id);
+            return ResponseEntity.noContent().build();
         }
     }
 }

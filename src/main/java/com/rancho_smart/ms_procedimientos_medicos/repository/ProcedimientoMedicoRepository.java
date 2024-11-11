@@ -10,4 +10,6 @@ import com.rancho_smart.ms_procedimientos_medicos.entity.ProcedimientoMedico;
 
 @Repository
 public interface ProcedimientoMedicoRepository extends JpaRepository<ProcedimientoMedico, Long>{
+    public List<ProcedimientoMedico> findByIdTratamiento(Long idTratamiento);
+    public List<ProcedimientoMedico> findByIdHistorialMedico(Long idHistorialMedico);
 }
